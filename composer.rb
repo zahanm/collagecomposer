@@ -26,8 +26,7 @@ end
 target = Image.new(segmenter.target.columns, segmenter.target.rows)
 segmenter.segment() do | target_cropped, xoffset, yoffset |
   target.composite! sources[rand(sources.length)], xoffset, yoffset,
-    AtopCompositeOp
-  # DEBUG puts "Found somthing"
+  AtopCompositeOp
 end
 target.write "output.jpg"
 
