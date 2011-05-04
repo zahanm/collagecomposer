@@ -7,7 +7,7 @@ We can use general analysis of image to construct collage
 Dependacies
 -----------
 
-Needs [`ImageMagick`](http://www.imagemagick.org) and
-[`RMagick`](http://rmagick.rubyforge.org) to work as
+Needs [ImageMagick](http://www.imagemagick.org) and
+[RMagick](http://rmagick.rubyforge.org) to work as
 intended.
 

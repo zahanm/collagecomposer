@@ -16,7 +16,7 @@ class Segmenter
     @target = Image.read(target).first
     @num_rows = num_rows
     @pixels_box = (@target.rows / num_rows).to_i
-    @num_cols = (@target.columns / @pixels_box).to_i
+    @num_cols = (@target.columns.to_f / @pixels_box).ceil
   end
 
   def segment()

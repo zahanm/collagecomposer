@@ -10,9 +10,7 @@ require 'segmenter'
 include Magick
 
 unless ARGV.length != 0
-  puts
-  puts "Usage: ruby composer.rb <mosaic_target> <num_rows> <base_images...> "
-  puts
+  puts "\nUsage: ruby composer.rb <mosaic_target> <num_rows> <base_images...>\n"
   exit
 end
 target_name = ARGV[0] # mosaic target image
@@ -25,8 +23,13 @@ sources = ImageList.new(*image_names).each do |img|
 end
 target = Image.new(segmenter.target.columns, segmenter.target.rows)
 segmenter.segment() do | target_cropped, xoffset, yoffset |
-  target.composite! sources[rand(sources.length)], xoffset, yoffset,
-  AtopCompositeOp
+  source = sources[rand(sources.length)]
+  mean_red = target_cropped.channel_mean(RedChannel).first
+  mean_green = target_cropped.channel_mean(GreenChannel).first
+  mean_blue = target_cropped.channel_mean(BlueChannel).first
+  pixel = Pixel.new mean_red, mean_green, mean_blue, 0.0
+  source = source.colorize 0.70, 0.70, 0.70, pixel
+  target.composite! source, xoffset, yoffset, AtopCompositeOp
 end
 target.write "output.jpg"
 
