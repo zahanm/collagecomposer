@@ -15,18 +15,19 @@ unless ARGV.length != 0
   puts
   exit
 end
-target = ARGV[0] # mosaic target image
+target_name = ARGV[0] # mosaic target image
 num_rows = ARGV[1].to_i # num rows on collage
 image_names = ARGV[2-ARGV.length] # other images
 
-segmenter = Segmenter.new target, num_rows
-sources = ImageList.new(*image_names) # unpacking array
+segmenter = Segmenter.new target_name, num_rows
+sources = ImageList.new(*image_names).each do |img|
+  img.resize_to_fill! segmenter.pixels_box
+end
 target = Image.new(segmenter.target.columns, segmenter.target.rows)
 segmenter.segment() do | target_cropped, xoffset, yoffset |
-  if row == 5 and col == 5
-    target_cropped.display
-  end
-  target.composite! sources[srand(sources.length)], xoffset, yoffset
+  target.composite! sources[rand(sources.length)], xoffset, yoffset,
+    AtopCompositeOp
   # DEBUG puts "Found somthing"
 end
+target.write "output.jpg"
 
