@@ -10,11 +10,15 @@ include Magick
 
 class Segmenter
 
-  attr_accessor :num_rows, :num_cols, :pixels_box, :target
+  attr_accessor :num_rows, :num_cols, :pixels_box, :target, :divider
 
-  def initialize(target, num_rows)
+  ##
+  # :call-seq: Segmenter.new target, num_rows, divider
+  # divider can be square, horizontal, lineoftext
+  def initialize(target, num_rows, divider=:square)
     @target = Image.read(target).first
     @num_rows = num_rows
+    @divider = divider.to_sym
     @pixels_box = (@target.rows / num_rows).to_i
     @num_cols = (@target.columns.to_f / @pixels_box).ceil
   end
